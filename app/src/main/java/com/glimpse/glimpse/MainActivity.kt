@@ -1,15 +1,17 @@
 package com.glimpse.glimpse
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import com.glimpse.glimpse.fragments.NearbyBeacons
-import com.glimpse.glimpse.fragments.PinnedBeacons
+import com.glimpse.glimpse.fragments.*
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -54,16 +56,22 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.recent -> {
                     Log.d("DRAWER", "Selected recent")
+                    this.title = "Glimpse - Recent Beacons"
+                    changeView(RecentBeacons())
                     true
                 }
 
                 R.id.sites -> {
                     Log.d("DRAWER", "Selected sites")
+                    this.title = "Glimpse Sites"
+                    changeView(GlimpseSites())
                     true
                 }
 
                 R.id.settings -> {
                     Log.d("DRAWER", "Selected settings")
+                    this.title = "Glimpse Settings"
+                    changeView(GlimpseSettings())
                     true
                 }
 
@@ -71,7 +79,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        changeView(NearbyBeacons())
+        checkPermissions()
+
+        // set the default/initial view fragment
+        changeView(GlimpseHome())
 
     }
 
@@ -84,10 +95,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Parameter is the resource id of the fragment
+     * Parameter is the constructor of the class that handles the fragment
      */
-    fun changeView(frag : Fragment) {
+    private fun changeView(frag : Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.main_frame, frag).commit()
     }
+
+    /**
+     * Check for internet access permissions etc.
+     * Request if not already granted.
+     */
+    private fun checkPermissions() {
+        val granted = PackageManager.PERMISSION_GRANTED
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != granted) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(
+                    Manifest.permission.INTERNET
+                ), 9999
+            )
+        } else {
+            Log.d("PERMISSION" , "Glimpse has internet permissions")
+        }
+    }
+
 
 }

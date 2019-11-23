@@ -20,11 +20,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.glimpse.glimpse.R
 import com.glimpse.glimpse.manager.BeaconManager
+import com.glimpse.glimpse.manager.RequestManager
 
 class NearbyBeacons : Fragment() {
 
     lateinit var currentContext: Context
     lateinit var beaconManager: BeaconManager
+    lateinit var requestManager: RequestManager
     private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
     /**
@@ -73,6 +75,7 @@ class NearbyBeacons : Fragment() {
         super.onAttach(context)
         currentContext = context
         beaconManager = BeaconManager(context)
+        requestManager = RequestManager(context)
     }
 
     override fun onDestroy() {
@@ -86,7 +89,7 @@ class NearbyBeacons : Fragment() {
 
         // TODO
         // startActivityForResult is async so does not wait for bluetooth to be enabled
-        // this means the activity has to be restarted to work properly if bt in enabled.
+        // this means the activity has to be restarted to work properly if bt isn't enabled.
         if (btAdapter != null) {
             if (!btAdapter.isEnabled) {
                 startActivityForResult(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 1)
@@ -102,6 +105,9 @@ class NearbyBeacons : Fragment() {
             Toast.makeText(currentContext, "Unable to get a bluetooth adapter.", Toast.LENGTH_LONG)
         }
 
+        // TODO
+        // Remove this. It's just a test to get some JSON.
+        requestManager.getJSONfromURL("")
 
     }
 
@@ -121,7 +127,7 @@ class NearbyBeacons : Fragment() {
 
     /**
      * Check for bluetooth permissions etc.
-     * Request if not already granted
+     * Request if not already granted.
      */
     private fun checkPermissions() {
         val granted = PackageManager.PERMISSION_GRANTED
