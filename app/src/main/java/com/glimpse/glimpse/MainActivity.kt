@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.glimpse.glimpse.fragments.NearbyBeacons
+import com.glimpse.glimpse.fragments.PinnedBeacons
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -40,11 +41,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.beacons -> {
                     Log.d("DRAWER", "Selected beacons")
                     this.title = "Glimpse - Nearby Beacons"
+                    changeView(NearbyBeacons())
                     true
                 }
 
                 R.id.pinned -> {
                     Log.d("DRAWER", "Selected pinned")
+                    this.title = "Glimpse - Pinned Beacons"
+                    changeView(PinnedBeacons())
                     true
                 }
 
@@ -67,6 +71,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        changeView(NearbyBeacons())
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -75,6 +81,13 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * Parameter is the resource id of the fragment
+     */
+    fun changeView(frag : Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.main_frame, frag).commit()
     }
 
 }

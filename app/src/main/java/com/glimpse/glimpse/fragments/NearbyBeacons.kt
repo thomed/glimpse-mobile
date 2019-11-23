@@ -84,17 +84,25 @@ class NearbyBeacons : Fragment() {
         super.onStart()
         checkPermissions()
 
-        if (btAdapter == null) {
-            Toast.makeText(currentContext, "Cannot get bluetooth adapter", Toast.LENGTH_LONG)
-        } else if (!btAdapter.isEnabled) {
-            startActivityForResult(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 1)
-        } else {
+        // TODO
+        // startActivityForResult is async so does not wait for bluetooth to be enabled
+        // this means the activity has to be restarted to work properly if bt in enabled.
+        if (btAdapter != null) {
+            if (!btAdapter.isEnabled) {
+                startActivityForResult(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 1)
+            }
+
             val btFilter = IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)
             btFilter.addAction(BluetoothDevice.ACTION_FOUND)
             currentContext.registerReceiver(bReceiver, btFilter)
             btAdapter.startDiscovery()
             Log.d("NEARBY_BEACONS", "Bluetooth adapter started discovering")
+        } else {
+            // no bluetooth adapter available
+            Toast.makeText(currentContext, "Unable to get a bluetooth adapter.", Toast.LENGTH_LONG)
         }
+
+
     }
 
     /**
