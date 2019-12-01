@@ -63,9 +63,12 @@ class NearbyBeacons : Fragment() {
         beaconManager.addBeacon(device)
         beaconManager.beacons.forEach {
             view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(
+//                it.value.listBtn
                 it.value.listBtn
             )
         }
+
+        Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons")
     }
 
     /**

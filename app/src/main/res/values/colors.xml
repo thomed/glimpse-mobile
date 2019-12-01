@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4d183b</color>
+    <color name="colorPrimary">#4D183B</color>
     <color name="colorPrimaryDark">#2d0619</color>
     <color name="colorAccent">#D81B60</color>
     <color name="glimpse_bg">#E8E4D2</color>
