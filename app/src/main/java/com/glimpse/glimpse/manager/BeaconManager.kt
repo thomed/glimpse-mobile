@@ -6,8 +6,9 @@ import android.widget.Button
 import com.glimpse.glimpse.data.Beacon
 import com.glimpse.glimpse.ui.BeaconButton
 
-class BeaconManager(_context : Context) {
-    private val context = _context
+class BeaconManager(val context : Context) {
+
+    private val requestManager = RequestManager(context)
     val beacons: HashMap<String, Beacon> = HashMap()
 
     /**
@@ -15,9 +16,13 @@ class BeaconManager(_context : Context) {
      */
     fun addBeacon(device : BluetoothDevice) {
         var id : String = device.name
+        var beacon = Beacon(id, device, context)
+
         if (!beacons.containsKey(id)) {
-            beacons[id] = Beacon(id, device, context)
+            beacons[id] = beacon
         }
+
+        requestManager.getBeacon(id, beacon)
     }
 
 }

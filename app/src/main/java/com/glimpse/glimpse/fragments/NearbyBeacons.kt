@@ -62,10 +62,13 @@ class NearbyBeacons : Fragment() {
         view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
         beaconManager.addBeacon(device)
         beaconManager.beacons.forEach {
-            view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(
-//                it.value.listBtn
-                it.value.listBtn
-            )
+            if (it.value.active) {
+                view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(
+                    it.value.listBtn
+                )
+            } else {
+                beaconManager.beacons.remove(it.key)
+            }
         }
 
         Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons")
@@ -107,10 +110,6 @@ class NearbyBeacons : Fragment() {
             // no bluetooth adapter available
             Toast.makeText(currentContext, "Unable to get a bluetooth adapter.", Toast.LENGTH_LONG)
         }
-
-        // TODO
-        // Remove this. It's just a test to get some JSON.
-        requestManager.getJSONfromURL("")
 
     }
 

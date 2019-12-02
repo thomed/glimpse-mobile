@@ -32,7 +32,7 @@ class BeaconButton : LinearLayout {
 
             // TODO look into making beacon parcelable
             intent.putExtra("title", beacon.id)
-            intent.putExtra("content", "BEACON CONTENT HERE")
+            intent.putExtra("content", beacon.content)
             context.startActivity(intent)
         }
     }

@@ -14,7 +14,8 @@ class Beacon (
 ) {
 
     var listBtn = BeaconButton(context, this)
-
+    var active = true
+    var content = ""
 
 //    init {
 //        listBtn.setOnClickListener {

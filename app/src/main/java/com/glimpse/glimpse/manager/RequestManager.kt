@@ -7,6 +7,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import android.util.Log
 import com.android.volley.toolbox.Volley
+import com.glimpse.glimpse.data.Beacon
 
 class RequestManager(private val context : Context) {
 
@@ -20,6 +21,30 @@ class RequestManager(private val context : Context) {
             },
             Response.ErrorListener {
                 Log.d("API_REQUEST", it.toString())
+            })
+
+        requestQueue.add(request)
+    }
+
+    fun getBeacon(id : String, beacon : Beacon) {
+        var url = "http://192.168.1.45:8080/api/beacon?id=${id}"
+
+        val request = JsonObjectRequest(Request.Method.GET, url, "",
+            Response.Listener<JSONObject> {
+                if (it["success"].toString() != "true") {
+                    beacon.active = false
+                } else {
+                    var data = it.getJSONArray("data").getJSONObject(0)
+                    Log.d("API_REQUEST", data.toString())
+
+                    // TODO JSON is swapping content and content_type
+                    Log.d("API_RESULT", data.get("content_type").toString())
+                    beacon.content = data.get("content_type").toString()
+                }
+            },
+            Response.ErrorListener {
+                Log.d("API_REQUEST", it.toString())
+                beacon.active = false
             })
 
         requestQueue.add(request)
