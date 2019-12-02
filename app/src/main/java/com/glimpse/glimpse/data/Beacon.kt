@@ -2,7 +2,8 @@ package com.glimpse.glimpse.data
 
 import android.bluetooth.BluetoothDevice
 import android.content.Context
-import android.widget.Button
+import android.util.Log
+import android.widget.Toast
 import com.glimpse.glimpse.ui.BeaconButton
 
 class Beacon (
@@ -16,7 +17,10 @@ class Beacon (
 
 
 //    init {
-//        var listBtn = BeaconButton(context, this)
+//        listBtn.setOnClickListener {
+//            Toast.makeText(context, "CLICKED", Toast.LENGTH_LONG)
+//            Log.d("BEACON_BUTTON", "Clicked a button")
+//        }
 //    }
 
 }
