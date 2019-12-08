@@ -27,7 +27,8 @@ class RequestManager(private val context : Context) {
     }
 
     fun getBeacon(id : String, beacon : Beacon) {
-        var url = "http://192.168.1.45:8080/api/beacon?id=${id}"
+//        var url = "http://192.168.1.45:8080/api/beacon?id=${id}"
+        var url = "http://98.202.97.105:8080/api/beacon?id=${id}"
 
         val request = JsonObjectRequest(Request.Method.GET, url, "",
             Response.Listener<JSONObject> {
@@ -35,11 +36,13 @@ class RequestManager(private val context : Context) {
                     beacon.active = false
                 } else {
                     var data = it.getJSONArray("data").getJSONObject(0)
-                    Log.d("API_REQUEST", data.toString())
+                    Log.d("API_RESULT", data.toString())
 
                     // TODO JSON is swapping content and content_type
                     Log.d("API_RESULT", data.get("content_type").toString())
                     beacon.content = data.get("content_type").toString()
+                    beacon.friendlyName = data.get("name").toString()
+                    beacon.listBtn.title.text = beacon.friendlyName
                 }
             },
             Response.ErrorListener {

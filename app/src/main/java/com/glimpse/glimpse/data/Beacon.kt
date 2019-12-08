@@ -9,19 +9,12 @@ import com.glimpse.glimpse.ui.BeaconButton
 class Beacon (
     var id : String,
     var device : BluetoothDevice,
-    var context : Context
-//    var listBtn : Button
+    private var context : Context
 ) {
 
     var listBtn = BeaconButton(context, this)
     var active = true
     var content = ""
-
-//    init {
-//        listBtn.setOnClickListener {
-//            Toast.makeText(context, "CLICKED", Toast.LENGTH_LONG)
-//            Log.d("BEACON_BUTTON", "Clicked a button")
-//        }
-//    }
+    var friendlyName = id
 
 }

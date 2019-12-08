@@ -47,6 +47,9 @@ class NearbyBeacons : Fragment() {
                     Log.d("BT_DISCOVER", "Discovered BT device: " + device.name)
                     foundBeacon(device)
                 }
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                // continuously be discovering
+                btAdapter?.startDiscovery()
             }
         }
     }
@@ -62,12 +65,14 @@ class NearbyBeacons : Fragment() {
         view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
         beaconManager.addBeacon(device)
         beaconManager.beacons.forEach {
-            if (it.value.active) {
+
+            // TODO this is a hacky way of making it work for prototype day only
+            if (it.key.contains("ESP32")) {
                 view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(
                     it.value.listBtn
                 )
             } else {
-                beaconManager.beacons.remove(it.key)
+//                beaconManager.beacons.remove(it.key)
             }
         }
 
@@ -85,6 +90,7 @@ class NearbyBeacons : Fragment() {
     }
 
     override fun onDestroy() {
+        btAdapter?.cancelDiscovery()
         currentContext.unregisterReceiver(bReceiver)
         super.onDestroy()
     }

@@ -22,6 +22,9 @@ class BeaconManager(val context : Context) {
             beacons[id] = beacon
         }
 
+        // TODO probably only get all the details when the button is selected
+        // e.g. currently gets all the content, but only need name and preview pic
+        // until the user wants the content
         requestManager.getBeacon(id, beacon)
     }
 
