@@ -4,8 +4,9 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class GlimpseDatabaseHelper(context : Context) :
-    SQLiteOpenHelper(context,
+class GlimpseDatabaseHelper(context: Context) :
+    SQLiteOpenHelper(
+        context,
         DATABASE_NAME, null,
         DATABASE_VERSION
     ) {
@@ -21,11 +22,12 @@ class GlimpseDatabaseHelper(context : Context) :
 
     companion object {
         // Database Information
-        var DATABASE_NAME = "glimpse_db"
+        const val DATABASE_NAME = "glimpse_db"
         private val DATABASE_VERSION = 1
 
         // Table creation queries
-        private const val MAKE_URL_TABLE = "CREATE TABLE IF NOT EXISTS glimpse_urls (url TEXT PRIMARY KEY)"
+        private const val MAKE_URL_TABLE =
+            "CREATE TABLE IF NOT EXISTS glimpse_urls (url TEXT PRIMARY KEY)"
     }
 
 }

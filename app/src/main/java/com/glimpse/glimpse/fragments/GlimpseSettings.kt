@@ -13,6 +13,6 @@ class GlimpseSettings : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.glimpse_settings, container, false)
+        return inflater.inflate(R.layout.fragment_glimpse_settings, container, false)
     }
 }

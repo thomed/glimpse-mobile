@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.R
 import com.glimpse.glimpse.manager.SiteManager
-import com.glimpse.glimpse.util.SiteListAdapter
 
 class GlimpseSites : Fragment() {
 
@@ -24,7 +23,7 @@ class GlimpseSites : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.glimpse_sites, container, false)
+        return inflater.inflate(R.layout.fragment_glimpse_sites, container, false)
     }
 
     override fun onStart() {

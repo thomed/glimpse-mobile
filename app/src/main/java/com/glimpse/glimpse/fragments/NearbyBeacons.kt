@@ -122,14 +122,14 @@ class NearbyBeacons : Fragment() {
     /**
      * Handles the event when this fragment's view is requested
      *
-     * Creates the view from the nearby_beacons.xml layout file
+     * Creates the view from the fragment_nearby_beacons.xmlacons.xml layout file
      */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.nearby_beacons, container, false)
+        return inflater.inflate(R.layout.fragment_nearby_beacons, container, false)
     }
 
 

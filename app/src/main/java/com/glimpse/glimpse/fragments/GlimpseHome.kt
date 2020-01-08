@@ -13,6 +13,6 @@ class GlimpseHome : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.glimpse_home, container, false)
+        return inflater.inflate(R.layout.fragment_glimpse_home, container, false)
     }
 }

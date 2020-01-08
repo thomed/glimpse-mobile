@@ -16,6 +16,7 @@ class SiteListAdapter() : RecyclerView.Adapter<SiteListAdapter.SiteListViewHolde
 
     // replace the contents of a view
     override fun onBindViewHolder(holder: SiteListViewHolder, position: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getItemCount(): Int {

@@ -18,7 +18,7 @@ class BeaconButton : LinearLayout {
     var title : TextView
 
     init {
-        inflate(context, R.layout.beacon_button, this)
+        inflate(context, R.layout.ui_beacon_button, this)
         layout = findViewById<LinearLayout>(R.id.beaconButton)
         image = layout.findViewById<ImageView>(R.id.beaconButtonImage)
         viewBtn = layout.findViewById<Button>(R.id.beaconButtonBtn)
