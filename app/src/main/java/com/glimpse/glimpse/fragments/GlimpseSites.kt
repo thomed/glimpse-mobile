@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.R
 import com.glimpse.glimpse.manager.SiteManager
+import com.glimpse.glimpse.ui.SiteListCard
+import com.glimpse.glimpse.util.SiteListAdapter
 
 class GlimpseSites : Fragment() {
 
@@ -32,19 +34,22 @@ class GlimpseSites : Fragment() {
         siteManager = SiteManager(requireActivity())
 
         siteListViewManager = LinearLayoutManager(view?.context)
-//        siteListViewAdapter = SiteListAdapter()
+        siteListViewAdapter = SiteListAdapter(siteManager)
 
         siteListRecyclerView = view!!.findViewById<RecyclerView>(R.id.siteListRecyclerView)
         siteListRecyclerView?.apply {
             setHasFixedSize(true)
-//            adapter = siteListViewAdapter
+            adapter = siteListViewAdapter
             layoutManager = siteListViewManager
         }
+//        var cardDivider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+//        siteListRecyclerView.addItemDecoration(cardDivider)
+        siteListRecyclerView.addItemDecoration(SiteListCard.CardDivider())
 
         // TODO simple tests for db insertion and retrieval, remove when not needed
         siteManager.insertURL("THIS IS A TEST URL IN THE DB")
         siteManager.insertURL("https://google.com/glimpse")
-        siteManager.urls().forEach {
+        siteManager.sites().forEach {
             Log.d("DB_URL", "Found: $it")
         }
     }

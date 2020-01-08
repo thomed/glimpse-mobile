@@ -27,7 +27,7 @@ class GlimpseDatabaseHelper(context: Context) :
 
         // Table creation queries
         private const val MAKE_URL_TABLE =
-            "CREATE TABLE IF NOT EXISTS glimpse_urls (url TEXT PRIMARY KEY)"
+            "CREATE TABLE IF NOT EXISTS glimpse_urls (url TEXT PRIMARY KEY, date_added TEXT)"
     }
 
 }

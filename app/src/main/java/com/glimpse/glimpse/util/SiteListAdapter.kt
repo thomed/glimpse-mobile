@@ -1,27 +1,31 @@
 package com.glimpse.glimpse.util
 
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.manager.SiteManager
+import com.glimpse.glimpse.ui.SiteListCard
+import kotlinx.android.synthetic.main.fragment_glimpse_sites.view.*
 
-class SiteListAdapter() : RecyclerView.Adapter<SiteListAdapter.SiteListViewHolder>(){
+class SiteListAdapter(val siteManager : SiteManager) : RecyclerView.Adapter<SiteListAdapter.SiteListViewHolder>(){
 
-    class SiteListViewHolder(val textView : TextView) : RecyclerView.ViewHolder(textView)
+    class SiteListViewHolder(val siteCard : SiteListCard) : RecyclerView.ViewHolder(siteCard)
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SiteListViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val card = SiteListCard(parent.siteListRecyclerView, parent.context)
+        return SiteListViewHolder(card)
     }
 
     // replace the contents of a view
     override fun onBindViewHolder(holder: SiteListViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var sites = siteManager.sites()
+        holder.siteCard.siteNameTextView.text = sites[position].name
+        holder.siteCard.siteURLTextView.text = sites[position].url
+        holder.siteCard.siteDateAddedTextView.text = sites[position].date
     }
 
     override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        //return SiteManager.urls().size
+        return siteManager.sites().size
     }
 
 }

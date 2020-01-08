@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#2d0619</color>
     <color name="colorAccent">#D81B60</color>
     <color name="glimpse_bg">#E8E4D2</color>
+    <color name="glimpse_bg_dark">#565F77</color>
 </resources>
