@@ -38,4 +38,9 @@ class SiteManager(val activity : Activity) {
         var date = SimpleDateFormat("MMMM DD, YYYY").format(Date())
         db.execSQL(INSERT_URL, arrayOf(url, date))
     }
+
+    fun deleteURL(url : String) {
+        val db = dbHelper.writableDatabase
+        db.execSQL(DELETE_URL, arrayOf(url))
+    }
 }

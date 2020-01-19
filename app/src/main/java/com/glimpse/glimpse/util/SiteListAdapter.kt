@@ -2,11 +2,12 @@ package com.glimpse.glimpse.util
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.glimpse.glimpse.fragments.GlimpseSites
 import com.glimpse.glimpse.manager.SiteManager
 import com.glimpse.glimpse.ui.SiteListCard
 import kotlinx.android.synthetic.main.fragment_glimpse_sites.view.*
 
-class SiteListAdapter(val siteManager : SiteManager) : RecyclerView.Adapter<SiteListAdapter.SiteListViewHolder>(){
+class SiteListAdapter(private val glimpseSites : GlimpseSites, private val siteManager : SiteManager) : RecyclerView.Adapter<SiteListAdapter.SiteListViewHolder>() {
 
     class SiteListViewHolder(val siteCard : SiteListCard) : RecyclerView.ViewHolder(siteCard)
 
@@ -22,6 +23,7 @@ class SiteListAdapter(val siteManager : SiteManager) : RecyclerView.Adapter<Site
         holder.siteCard.siteNameTextView.text = sites[position].name
         holder.siteCard.siteURLTextView.text = sites[position].url
         holder.siteCard.siteDateAddedTextView.text = sites[position].date
+        holder.siteCard.menu.setOnMenuItemClickListener { glimpseSites.onMenuItemClick(it, holder.siteCard) }
     }
 
     override fun getItemCount(): Int {
