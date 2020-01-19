@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -38,6 +39,10 @@ class SiteUrlDialog(var dialogCreator : Fragment) : DialogFragment() {
         cancelBtn = requireView().findViewById(R.id.siteDialogCancelBtn)
         urlString = ""
         positive = false
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         initializeClickHandlers()
     }
 
