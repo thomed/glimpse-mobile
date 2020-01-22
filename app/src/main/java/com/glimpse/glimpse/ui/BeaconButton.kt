@@ -30,7 +30,7 @@ class BeaconButton : LinearLayout {
 
         // TODO
         // Set the text to the friendly beacon title
-        title.text = beacon.id
+        title.text = beacon.deviceName
 
         viewBtn.setOnClickListener {
             val intent = Intent(context, BeaconContentActivity::class.java)

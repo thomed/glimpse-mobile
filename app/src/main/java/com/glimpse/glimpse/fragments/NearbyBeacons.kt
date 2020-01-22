@@ -19,15 +19,19 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.glimpse.glimpse.R
+import com.glimpse.glimpse.data.Site
 import com.glimpse.glimpse.manager.BeaconManager
 import com.glimpse.glimpse.manager.RequestManager
+import com.glimpse.glimpse.manager.SiteManager
 
 class NearbyBeacons : Fragment() {
 
-    lateinit var currentContext: Context
-    lateinit var beaconManager: BeaconManager
-    lateinit var requestManager: RequestManager
+    private lateinit var currentContext: Context
+    private lateinit var beaconManager: BeaconManager
+    private lateinit var requestManager: RequestManager
+    private lateinit var siteManager : SiteManager
     private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+    private lateinit var enabledBeaconNames : HashMap<String, Site>
 
     /**
      * Event handler for when a bluetooth device is discovered
@@ -43,9 +47,9 @@ class NearbyBeacons : Fragment() {
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 var device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice?
 
-                if (device != null && device.name != null) {
+                if (device != null && device.name != null && enabledBeaconNames.size > 0) {
                     Log.d("BT_DISCOVER", "Discovered BT device: " + device.name)
-                    foundBeacon(device)
+                    foundBeacon(device, enabledBeaconNames[device.name]!!)
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 // continuously be discovering
@@ -61,22 +65,18 @@ class NearbyBeacons : Fragment() {
      * In the future the beaconmanager will perform some verification.
      * For now, all bluetooth devices are being added
      */
-    private fun foundBeacon(device: BluetoothDevice) {
-        view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
-        beaconManager.addBeacon(device)
-        beaconManager.beacons.forEach {
-
-            // TODO this is a hacky way of making it work for prototype day only
-            if (it.key.contains("ESP32")) {
-                view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(
-                    it.value.listBtn
-                )
-            } else {
-//                beaconManager.beacons.remove(it.key)
+    private fun foundBeacon(device: BluetoothDevice, site : Site) {
+        if (enabledBeaconNames.contains(device.name)) {
+            view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
+            beaconManager.addBeacon(device, site)
+            beaconManager.beacons.forEach {
+                    view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(
+                        it.value.listBtn
+                    )
             }
+            Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons")
         }
 
-        Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons")
     }
 
     /**
@@ -87,6 +87,8 @@ class NearbyBeacons : Fragment() {
         currentContext = context
         beaconManager = BeaconManager(context)
         requestManager = RequestManager(context)
+        siteManager = SiteManager(requireActivity())
+        enabledBeaconNames = siteManager.enabledBeacons()
     }
 
     override fun onDestroy() {
@@ -113,8 +115,7 @@ class NearbyBeacons : Fragment() {
             btAdapter.startDiscovery()
             Log.d("NEARBY_BEACONS", "Bluetooth adapter started discovering")
         } else {
-            // no bluetooth adapter available
-            Toast.makeText(currentContext, "Unable to get a bluetooth adapter.", Toast.LENGTH_LONG)
+            Toast.makeText(currentContext, "Unable to get a bluetooth adapter.", Toast.LENGTH_LONG).show()
         }
 
     }

@@ -6,11 +6,15 @@ import com.glimpse.glimpse.data.Site
 import com.glimpse.glimpse.util.GlimpseTools
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 class SiteManager(val activity : Activity) {
 
     private val glimpseTools = GlimpseTools(activity)
     private val dbHelper = glimpseTools.dbHelper()
+    private val requestManager = RequestManager(glimpseTools.applicationContext())
 
     companion object {
         // Site related queries
@@ -27,10 +31,23 @@ class SiteManager(val activity : Activity) {
 
         return generateSequence { if (c.moveToNext()) c else null }
             .map {
-           //     c.getString(urlColIndex)
                 Site("Glimpse Site Name", c.getString(urlColIndex), c.getString(dateColIndex))
             }
             .toList()
+    }
+
+    /**
+     * Return all the beacon device names from sites which are enabled.
+     */
+    fun enabledBeacons() : HashMap<String, Site> {
+        var beacons = HashMap<String, Site>()
+
+        // TODO filter to only sites which are flagged as enabled on the sites page.
+        sites().forEach{
+            requestManager.getAllBeaconIdsFromSite(it, beacons)
+        }
+
+        return beacons
     }
 
     fun insertURL(url : String) {

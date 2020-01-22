@@ -67,3 +67,4 @@ class SiteUrlDialog(var dialogCreator : Fragment) : DialogFragment() {
         }
     }
 }
+

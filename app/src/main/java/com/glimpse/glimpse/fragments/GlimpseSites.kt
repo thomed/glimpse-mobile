@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Button
-import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,13 +53,6 @@ class GlimpseSites : Fragment(), DialogInterface.OnDismissListener {
         clearItemDecorations()
         siteListRecyclerView.addItemDecoration(SiteListCard.CardDivider())
         registerForContextMenu(siteListRecyclerView)
-
-        // TODO simple tests for db insertion and retrieval, remove when not needed
-//        siteManager.insertURL("THIS IS A TEST URL IN THE DB")
-//        siteManager.insertURL("https://google.com/glimpse")
-//        siteManager.sites().forEach {
-//            Log.d("DB_URL", "Found: $it")
-//        }
 
         initializeClickHandlers()
     }

@@ -26,7 +26,6 @@ class SiteListCard(parent : RecyclerView,context : Context) : CardView(context) 
     init {
         View.inflate(parent.context, R.layout.ui_site_list_card, this)
 
-//        var view = LayoutInflater.from(parent.context).inflate(R.layout.ui_site_list_card, parent, true)
         cardView = findViewById(R.id.site_card_view)
         siteNameTextView = findViewById(R.id.site_name)
         siteURLTextView = findViewById(R.id.site_url)
