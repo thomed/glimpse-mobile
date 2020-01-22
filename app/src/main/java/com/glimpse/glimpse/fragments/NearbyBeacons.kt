@@ -30,8 +30,8 @@ class NearbyBeacons : Fragment() {
     private lateinit var beaconManager: BeaconManager
     private lateinit var requestManager: RequestManager
     private lateinit var siteManager : SiteManager
-    private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private lateinit var enabledBeaconNames : HashMap<String, Site>
+    private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
     /**
      * Event handler for when a bluetooth device is discovered
@@ -42,16 +42,15 @@ class NearbyBeacons : Fragment() {
 
             val action = intent.action
 
-            Log.d("NEARBY_BEACONS", "Bluetooth receive action: " + action.toString())
-
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 var device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice?
 
-                if (device != null && device.name != null && enabledBeaconNames.size > 0) {
+                if (device != null && device.name != null && enabledBeaconNames.containsKey(device.name)) {
                     Log.d("BT_DISCOVER", "Discovered BT device: " + device.name)
                     foundBeacon(device, enabledBeaconNames[device.name]!!)
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+                // TODO have this be a setting that the user can change
                 // continuously be discovering
                 btAdapter?.startDiscovery()
             }
@@ -60,21 +59,15 @@ class NearbyBeacons : Fragment() {
 
     /**
      * Adds a bluetoothdevice to the beaconmanager and adds its button to the UI
-     *
-     * TODO
-     * In the future the beaconmanager will perform some verification.
-     * For now, all bluetooth devices are being added
      */
     private fun foundBeacon(device: BluetoothDevice, site : Site) {
         if (enabledBeaconNames.contains(device.name)) {
             view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
             beaconManager.addBeacon(device, site)
             beaconManager.beacons.forEach {
-                    view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(
-                        it.value.listBtn
-                    )
+                    view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(it.value.listBtn)
             }
-            Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons")
+            Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons.")
         }
 
     }

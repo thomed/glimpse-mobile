@@ -23,6 +23,10 @@ class SiteManager(val activity : Activity) {
         private const val DELETE_URL = "DELETE FROM glimpse_urls WHERE url = ?"
     }
 
+    /**
+     * Read all url data from the glimpse_urls table and returns a list of Sites
+     * constructed using this data.
+     */
     fun sites() : List<Site> {
         val db = dbHelper.readableDatabase
         val c : Cursor = db.rawQuery(GET_ALL_URLS, emptyArray())
@@ -50,12 +54,18 @@ class SiteManager(val activity : Activity) {
         return beacons
     }
 
+    /**
+     * Insert a url and related data into the glimpse_urls table.
+     */
     fun insertURL(url : String) {
         val db = dbHelper.writableDatabase
         var date = SimpleDateFormat("MMMM DD, YYYY").format(Date())
         db.execSQL(INSERT_URL, arrayOf(url, date))
     }
 
+    /**
+     * Delete all data related to the given url from the glimpse_urls table.
+     */
     fun deleteURL(url : String) {
         val db = dbHelper.writableDatabase
         db.execSQL(DELETE_URL, arrayOf(url))

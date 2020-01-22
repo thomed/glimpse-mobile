@@ -77,6 +77,9 @@ class GlimpseSites : Fragment(), DialogInterface.OnDismissListener {
         }
     }
 
+    /**
+     * Handle the menuItem clicks of the individual card popup menus.
+     */
     fun onMenuItemClick(item: MenuItem?, card : SiteListCard): Boolean {
         print("Selected an item\n")
         return when(item?.itemId) {

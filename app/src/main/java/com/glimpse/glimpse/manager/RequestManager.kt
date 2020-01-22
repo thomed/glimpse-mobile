@@ -16,6 +16,10 @@ class RequestManager(private val context : Context) {
 
     val requestQueue = Volley.newRequestQueue(context)
 
+    /**
+     * Gets the data for a beacon with devicename id from the specified site and returns a
+     * beacon object with that data.
+     */
     fun getBeacon(id : String, beacon : Beacon, site : Site) {
         var url = "${site.url}/api/beacons/$id"
 
@@ -27,7 +31,6 @@ class RequestManager(private val context : Context) {
                     var data = it.getJSONArray("data").getJSONObject(0)
                     Log.d("API_RESULT", data.toString())
 
-                    Log.d("API_RESULT", data.get("content").toString())
                     beacon.content = data.get("content").toString()
                     beacon.friendlyName = data.get("display_name").toString()
                     beacon.listBtn.title.text = beacon.friendlyName
@@ -47,6 +50,7 @@ class RequestManager(private val context : Context) {
     fun getAllBeaconIdsFromSite(s : Site, beaconIds : HashMap<String, Site>) {
         val url = s.url + "/api/devices"
         Log.d("API_RESULT_ALL_BEACONS", "Sending request to $url")
+
         val request = JsonArrayRequest(Request.Method.GET, url, "",
             Response.Listener<JSONArray> {
                 Log.d("API_RESULT_ALL_BEACONS", it.toString())
@@ -56,7 +60,6 @@ class RequestManager(private val context : Context) {
             },
             Response.ErrorListener {
                 Log.d("API_RESULT_ALL_BEACONS", "Error: $it")
-//                beaconIds.clear()
             })
 
         requestQueue.add(request)
