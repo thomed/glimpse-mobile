@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
+import android.widget.Switch
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.R
+import com.glimpse.glimpse.data.Site
 import com.glimpse.glimpse.fragments.GlimpseSites
 import kotlinx.android.synthetic.main.ui_site_list_card.view.*
 
@@ -21,6 +23,7 @@ class SiteListCard(parent : RecyclerView,context : Context) : CardView(context) 
     var siteDateAddedTextView : TextView
     var siteURLTextView : TextView
     var siteCardOptionsBtn : ImageButton
+    var enableSwitch : Switch
     var menu : PopupMenu
 
     init {
@@ -31,8 +34,13 @@ class SiteListCard(parent : RecyclerView,context : Context) : CardView(context) 
         siteURLTextView = findViewById(R.id.site_url)
         siteDateAddedTextView = findViewById(R.id.site_date_added)
         siteCardOptionsBtn = findViewById(R.id.siteCardOptBtn)
+        enableSwitch = findViewById(R.id.siteToggleSwitch)
         menu = PopupMenu(context, siteCardOptionsBtn)
         menu.menuInflater.inflate(R.menu.site_card_options_menu, menu.menu)
+    }
+
+    fun url() : String {
+        return siteURLTextView.text.toString()
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {

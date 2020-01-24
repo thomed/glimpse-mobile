@@ -24,6 +24,8 @@ class SiteListAdapter(private val glimpseSites : GlimpseSites, private val siteM
         holder.siteCard.siteURLTextView.text = sites[position].url
         holder.siteCard.siteDateAddedTextView.text = sites[position].date
         holder.siteCard.menu.setOnMenuItemClickListener { glimpseSites.onMenuItemClick(it, holder.siteCard) }
+        holder.siteCard.enableSwitch.isChecked = sites[position].enabled
+        holder.siteCard.enableSwitch.setOnClickListener { glimpseSites.onSiteEnableToggle(holder.siteCard) }
     }
 
     override fun getItemCount(): Int {

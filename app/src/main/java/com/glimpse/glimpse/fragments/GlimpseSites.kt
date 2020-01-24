@@ -98,6 +98,10 @@ class GlimpseSites : Fragment(), DialogInterface.OnDismissListener {
         }
     }
 
+    fun onSiteEnableToggle(card : SiteListCard) {
+        siteManager.updateEnabled(card.url(), card.enableSwitch.isChecked)
+    }
+
     /**
      * Handle the close of the SiteUrlDialog.
      */

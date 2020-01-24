@@ -6,9 +6,7 @@ import com.glimpse.glimpse.data.Site
 import com.glimpse.glimpse.util.GlimpseTools
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.collections.HashSet
 
 class SiteManager(val activity : Activity) {
 
@@ -18,9 +16,10 @@ class SiteManager(val activity : Activity) {
 
     companion object {
         // Site related queries
-        private const val GET_ALL_URLS = "SELECT url, date_added FROM glimpse_urls"
-        private const val INSERT_URL = "INSERT OR IGNORE INTO glimpse_urls VALUES(?, ?)"
+        private const val GET_ALL_URLS = "SELECT url, date_added, enabled FROM glimpse_urls"
+        private const val INSERT_URL = "INSERT OR IGNORE INTO glimpse_urls VALUES(?, ?, ?)"
         private const val DELETE_URL = "DELETE FROM glimpse_urls WHERE url = ?"
+        private const val UPDATE_ENABLED = "UPDATE glimpse_urls SET enabled = ? WHERE url = ?"
     }
 
     /**
@@ -32,10 +31,11 @@ class SiteManager(val activity : Activity) {
         val c : Cursor = db.rawQuery(GET_ALL_URLS, emptyArray())
         val urlColIndex = c.getColumnIndex("url")
         val dateColIndex = c.getColumnIndex("date_added")
+        val enabledIndex = c.getColumnIndex("enabled")
 
         return generateSequence { if (c.moveToNext()) c else null }
             .map {
-                Site("Glimpse Site Name", c.getString(urlColIndex), c.getString(dateColIndex))
+                Site("Glimpse Site Name", c.getString(urlColIndex), c.getString(dateColIndex), c.getInt(enabledIndex) == 1)
             }
             .toList()
     }
@@ -46,8 +46,7 @@ class SiteManager(val activity : Activity) {
     fun enabledBeacons() : HashMap<String, Site> {
         var beacons = HashMap<String, Site>()
 
-        // TODO filter to only sites which are flagged as enabled on the sites page.
-        sites().forEach{
+        sites().filter { it.enabled }.forEach{
             requestManager.getAllBeaconIdsFromSite(it, beacons)
         }
 
@@ -60,7 +59,7 @@ class SiteManager(val activity : Activity) {
     fun insertURL(url : String) {
         val db = dbHelper.writableDatabase
         var date = SimpleDateFormat("MMMM DD, YYYY").format(Date())
-        db.execSQL(INSERT_URL, arrayOf(url, date))
+        db.execSQL(INSERT_URL, arrayOf(url, date, 1))
     }
 
     /**
@@ -69,5 +68,10 @@ class SiteManager(val activity : Activity) {
     fun deleteURL(url : String) {
         val db = dbHelper.writableDatabase
         db.execSQL(DELETE_URL, arrayOf(url))
+    }
+
+    fun updateEnabled(url : String, enabled : Boolean) {
+        val db = dbHelper.writableDatabase
+        db.execSQL(UPDATE_ENABLED, arrayOf(if (enabled) 1 else 0, url))
     }
 }

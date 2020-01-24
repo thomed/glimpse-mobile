@@ -17,12 +17,33 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
-                android:id="@+id/site_name"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Site Name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/site_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Site Name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <Switch
+                        android:id="@+id/siteToggleSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:theme ="@style/GlimpseToggleSwitch"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/site_url"
@@ -59,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#00FFFFFF"
-                        android:contentDescription="TODO"
+                        android:contentDescription="Edit or Delete site"
                         app:srcCompat="@drawable/ic_more_vert_black_24dp" />
                 </LinearLayout>
 
