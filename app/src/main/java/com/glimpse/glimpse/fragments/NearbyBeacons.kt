@@ -47,7 +47,8 @@ class NearbyBeacons : Fragment() {
 
                 if (device != null && device.name != null && enabledBeaconNames.containsKey(device.name)) {
                     Log.d("BT_DISCOVER", "Discovered BT device: " + device.name)
-                    foundBeacon(device, enabledBeaconNames[device.name]!!)
+//                    foundBeacon(device, enabledBeaconNames[device.name]!!)
+                    beaconManager.getBeaconsByDevice(device, ::updateViewForBeacons)
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 // TODO have this be a setting that the user can change
@@ -58,19 +59,32 @@ class NearbyBeacons : Fragment() {
     }
 
     /**
+     * Clear the view and populate it with elements representing current beacons
+     */
+    fun updateViewForBeacons() {
+        view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
+        beaconManager.beacons.forEach {
+            var mapEntry = it
+            mapEntry.value.forEach {
+                view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(it.listBtn)
+            }
+        }
+    }
+
+    /**
      * Adds a bluetoothdevice to the beaconmanager and adds its button to the UI
      */
-    private fun foundBeacon(device: BluetoothDevice, site : Site) {
-        if (enabledBeaconNames.contains(device.name)) {
-            view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
-            beaconManager.addBeacon(device, site)
-            beaconManager.beacons.forEach {
-                    view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(it.value.listBtn)
-            }
-            Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons.")
-        }
-
-    }
+//    private fun foundBeacon(device: BluetoothDevice, site : Site) {
+//        if (enabledBeaconNames.contains(device.name)) {
+//            view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
+//            beaconManager.addBeacon(device, site)
+//            beaconManager.beacons.forEach {
+//                    view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(it.value.listBtn)
+//            }
+//            Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons.")
+//        }
+//
+//    }
 
     /**
      * Handles the event when this fragment is attached to an activity
@@ -78,10 +92,11 @@ class NearbyBeacons : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         currentContext = context
-        beaconManager = BeaconManager(context)
+        beaconManager = BeaconManager(requireActivity())
         requestManager = RequestManager(context)
         siteManager = SiteManager(requireActivity())
-        enabledBeaconNames = siteManager.enabledBeacons()
+    //    enabledBeaconNames = siteManager.enabledDevices()
+        beaconManager.enabledDevices
     }
 
     override fun onDestroy() {

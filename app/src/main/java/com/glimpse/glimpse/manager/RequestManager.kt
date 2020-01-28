@@ -20,34 +20,35 @@ class RequestManager(private val context : Context) {
      * Gets the data for a beacon with devicename id from the specified site and returns a
      * beacon object with that data.
      */
-    fun getBeacon(id : String, beacon : Beacon, site : Site) {
-        var url = "${site.url}/api/beacons/$id"
-
-        val request = JsonObjectRequest(Request.Method.GET, url, "",
-            Response.Listener<JSONObject> {
-                if (it["success"].toString() != "true") {
-                    beacon.active = false
-                } else {
-                    var data = it.getJSONArray("data").getJSONObject(0)
-                    Log.d("API_RESULT", data.toString())
-
-                    beacon.content = data.get("content").toString()
-                    beacon.friendlyName = data.get("display_name").toString()
-                    beacon.listBtn.title.text = beacon.friendlyName
-                }
-            },
-            Response.ErrorListener {
-                Log.d("API_REQUEST", it.toString())
-                beacon.active = false
-            })
-
-        requestQueue.add(request)
-    }
+//    fun getBeacon(id : String, beacon : Beacon, site : Site) {
+//        var url = "${site.url}/api/beacons/$id"
+//
+//        val request = JsonObjectRequest(Request.Method.GET, url, "",
+//            Response.Listener<JSONObject> {
+//                if (it["success"].toString() != "true") {
+//                    beacon.active = false
+//                } else {
+//                    var data = it.getJSONArray("data").getJSONObject(0)
+//                    Log.d("API_RESULT", data.toString())
+//
+//                    beacon.content = data.get("content").toString()
+//                    beacon.friendlyName = data.get("display_name").toString()
+//                    beacon.listBtn.title.text = beacon.friendlyName
+//                }
+//            },
+//            Response.ErrorListener {
+//                Log.d("API_REQUEST", it.toString())
+//                beacon.active = false
+//            })
+//
+//        requestQueue.add(request)
+//    }
 
     /**
-     * Adds all the beacon device ids associated with a site to a hashset
+     * Adds all the beacon device ids associated with a site to a HashMap
+     * Device names are associated with a site in the HashMap
      */
-    fun getAllBeaconIdsFromSite(s : Site, beaconIds : HashMap<String, Site>) {
+    fun getAllDeviceNamesFromSite(s : Site, beaconIds : HashMap<String, Site>) {
         val url = s.url + "/api/devices"
         Log.d("API_RESULT_ALL_BEACONS", "Sending request to $url")
 

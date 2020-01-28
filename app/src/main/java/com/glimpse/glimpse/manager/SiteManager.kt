@@ -43,11 +43,11 @@ class SiteManager(val activity : Activity) {
     /**
      * Return all the beacon device names from sites which are enabled.
      */
-    fun enabledBeacons() : HashMap<String, Site> {
+    fun enabledDevices() : HashMap<String, Site> {
         var beacons = HashMap<String, Site>()
 
         sites().filter { it.enabled }.forEach{
-            requestManager.getAllBeaconIdsFromSite(it, beacons)
+            requestManager.getAllDeviceNamesFromSite(it, beacons)
         }
 
         return beacons

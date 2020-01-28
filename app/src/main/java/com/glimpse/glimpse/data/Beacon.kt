@@ -5,14 +5,13 @@ import android.content.Context
 import com.glimpse.glimpse.ui.BeaconButton
 
 class Beacon (
-    var deviceName : String,
     var device : BluetoothDevice,
     private var context : Context
 ) {
-
     var listBtn = BeaconButton(context, this)
     var active = true
     var content = ""
+    var deviceName = device.name
     var friendlyName = ""
-
+    var id = -1
 }
