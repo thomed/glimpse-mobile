@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
+/**
+ * TODO
+ * Probably make some things part of a companion object for performance.
+ */
 class SiteManager(val activity : Activity) {
 
     private val glimpseTools = GlimpseTools(activity)
@@ -44,13 +48,13 @@ class SiteManager(val activity : Activity) {
      * Return all the beacon device names from sites which are enabled.
      */
     fun enabledDevices() : HashMap<String, Site> {
-        var beacons = HashMap<String, Site>()
+        var devices = HashMap<String, Site>()
 
         sites().filter { it.enabled }.forEach{
-            requestManager.getAllDeviceNamesFromSite(it, beacons)
+            requestManager.getAllDeviceNamesFromSite(it, devices)
         }
 
-        return beacons
+        return devices
     }
 
     /**

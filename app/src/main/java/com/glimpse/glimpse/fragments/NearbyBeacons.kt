@@ -22,14 +22,12 @@ import com.glimpse.glimpse.R
 import com.glimpse.glimpse.data.Site
 import com.glimpse.glimpse.manager.BeaconManager
 import com.glimpse.glimpse.manager.RequestManager
-import com.glimpse.glimpse.manager.SiteManager
 
 class NearbyBeacons : Fragment() {
 
     private lateinit var currentContext: Context
     private lateinit var beaconManager: BeaconManager
     private lateinit var requestManager: RequestManager
-    private lateinit var siteManager : SiteManager
     private lateinit var enabledBeaconNames : HashMap<String, Site>
     private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
@@ -72,21 +70,6 @@ class NearbyBeacons : Fragment() {
     }
 
     /**
-     * Adds a bluetoothdevice to the beaconmanager and adds its button to the UI
-     */
-//    private fun foundBeacon(device: BluetoothDevice, site : Site) {
-//        if (enabledBeaconNames.contains(device.name)) {
-//            view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
-//            beaconManager.addBeacon(device, site)
-//            beaconManager.beacons.forEach {
-//                    view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(it.value.listBtn)
-//            }
-//            Log.d("FOUND_BEACON", "There are " + beaconManager.beacons.size + " beacons.")
-//        }
-//
-//    }
-
-    /**
      * Handles the event when this fragment is attached to an activity
      */
     override fun onAttach(context: Context) {
@@ -94,9 +77,7 @@ class NearbyBeacons : Fragment() {
         currentContext = context
         beaconManager = BeaconManager(requireActivity())
         requestManager = RequestManager(context)
-        siteManager = SiteManager(requireActivity())
-    //    enabledBeaconNames = siteManager.enabledDevices()
-        beaconManager.enabledDevices
+        enabledBeaconNames = beaconManager.enabledDevices
     }
 
     override fun onDestroy() {

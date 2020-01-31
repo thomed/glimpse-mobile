@@ -6,6 +6,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
 import android.util.Log
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.glimpse.glimpse.data.Beacon
@@ -15,34 +16,6 @@ import org.json.JSONArray
 class RequestManager(private val context : Context) {
 
     val requestQueue = Volley.newRequestQueue(context)
-
-    /**
-     * Gets the data for a beacon with devicename id from the specified site and returns a
-     * beacon object with that data.
-     */
-//    fun getBeacon(id : String, beacon : Beacon, site : Site) {
-//        var url = "${site.url}/api/beacons/$id"
-//
-//        val request = JsonObjectRequest(Request.Method.GET, url, "",
-//            Response.Listener<JSONObject> {
-//                if (it["success"].toString() != "true") {
-//                    beacon.active = false
-//                } else {
-//                    var data = it.getJSONArray("data").getJSONObject(0)
-//                    Log.d("API_RESULT", data.toString())
-//
-//                    beacon.content = data.get("content").toString()
-//                    beacon.friendlyName = data.get("display_name").toString()
-//                    beacon.listBtn.title.text = beacon.friendlyName
-//                }
-//            },
-//            Response.ErrorListener {
-//                Log.d("API_REQUEST", it.toString())
-//                beacon.active = false
-//            })
-//
-//        requestQueue.add(request)
-//    }
 
     /**
      * Adds all the beacon device ids associated with a site to a HashMap
@@ -62,6 +35,11 @@ class RequestManager(private val context : Context) {
             Response.ErrorListener {
                 Log.d("API_RESULT_ALL_BEACONS", "Error: $it")
             })
+
+        request.retryPolicy = DefaultRetryPolicy(
+            2000,
+            2,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
         requestQueue.add(request)
     }
