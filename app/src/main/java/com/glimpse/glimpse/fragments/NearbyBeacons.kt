@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,10 +19,14 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.R
 import com.glimpse.glimpse.data.Site
 import com.glimpse.glimpse.manager.BeaconManager
 import com.glimpse.glimpse.manager.RequestManager
+import com.glimpse.glimpse.ui.BeaconListCard
+import com.glimpse.glimpse.util.BeaconListAdapter
 
 class NearbyBeacons : Fragment() {
 
@@ -29,6 +34,9 @@ class NearbyBeacons : Fragment() {
     private lateinit var beaconManager: BeaconManager
     private lateinit var requestManager: RequestManager
     private lateinit var enabledBeaconNames : HashMap<String, Site>
+    private lateinit var beaconListRecyclerView : RecyclerView
+    private lateinit var beaconListViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var beaconListViewManager : RecyclerView.LayoutManager
     private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
     /**
@@ -60,13 +68,15 @@ class NearbyBeacons : Fragment() {
      * Clear the view and populate it with elements representing current beacons
      */
     fun updateViewForBeacons() {
-        view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
-        beaconManager.beacons.forEach {
-            var mapEntry = it
-            mapEntry.value.forEach {
-                view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(it.listBtn)
-            }
-        }
+        Log.d("NEARBY_BEACONS", "Called updated view for beacons.")
+        beaconListViewAdapter.notifyDataSetChanged()
+//        view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
+//        beaconManager.beacons.forEach {
+//            var mapEntry = it
+//            mapEntry.value.forEach {
+//                view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(it.listBtn)
+//            }
+//        }
     }
 
     /**
@@ -107,6 +117,18 @@ class NearbyBeacons : Fragment() {
             Toast.makeText(currentContext, "Unable to get a bluetooth adapter.", Toast.LENGTH_LONG).show()
         }
 
+        beaconListViewManager = LinearLayoutManager(view?.context)
+        beaconListViewAdapter = BeaconListAdapter(beaconManager)
+
+        beaconListRecyclerView = requireView().findViewById(R.id.beaconListRecyclerView)
+        beaconListRecyclerView?.apply {
+            setHasFixedSize(true)
+            adapter = beaconListViewAdapter
+            layoutManager = beaconListViewManager
+        }
+
+        beaconListRecyclerView.addItemDecoration(BeaconListCard.CardDivider())
+
     }
 
     /**
@@ -143,5 +165,7 @@ class NearbyBeacons : Fragment() {
             )
         }
     }
+
+
 
 }

@@ -18,6 +18,26 @@ class BeaconManager(private val parent : Activity) {
     private val siteManager : SiteManager = SiteManager(parent)
     val enabledDevices : HashMap<String, Site> = siteManager.enabledDevices()
     val beacons: HashMap<String, ArrayList<Beacon>> = HashMap()
+    val beaconsList = ArrayList<Beacon>()
+
+    /**
+     * Refresh the beaacon list so that it is up to date with all of the beacons in the beacons
+     * hashmap.
+     *
+     * This should be called whenever the beacons hashmap is updated to keep things relevant for the
+     * recycler view of the nearby beacons page.
+     *
+     * There may be a more efficient way to maintain both the deviceName -> beacons relation
+     * while working with a recycler view, but none comes to mind right now.
+     */
+    fun updateBeaconList() {
+        beaconsList.clear()
+        for (deviceName in beacons) {
+            deviceName.value.forEach {
+                beaconsList.add(it)
+            }
+        }
+    }
 
     /**
      * Given a device:
@@ -53,6 +73,7 @@ class BeaconManager(private val parent : Activity) {
                         beacons[device.name]?.add(newBeacon)
                     }
 
+                    updateBeaconList()
                     callback()
                 }
             },
