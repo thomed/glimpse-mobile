@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -35,6 +36,7 @@ class NearbyBeacons : Fragment() {
     private lateinit var beaconListRecyclerView : RecyclerView
     private lateinit var beaconListViewAdapter: RecyclerView.Adapter<*>
     private lateinit var beaconListViewManager : RecyclerView.LayoutManager
+    private lateinit var searchInProgessView : LinearLayout
     private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
     /**
@@ -66,6 +68,9 @@ class NearbyBeacons : Fragment() {
      */
     fun updateViewForBeacons() {
         Log.d("NEARBY_BEACONS", "Called updated view for beacons.")
+
+        // TODO If no sites enabled, have a message about that instead of searching
+        searchInProgessView.visibility = if (beaconManager.beacons.size > 0) View.GONE else  View.VISIBLE
 
         // TODO animation gets applied to all cards
         // probably need to make a change to beaconmanager list stuff to fix
@@ -110,6 +115,8 @@ class NearbyBeacons : Fragment() {
         } else {
             Toast.makeText(currentContext, "Unable to get a bluetooth adapter.", Toast.LENGTH_LONG).show()
         }
+
+        searchInProgessView = requireView().findViewById(R.id.search_in_progress)
 
         beaconListViewManager = LinearLayoutManager(view?.context)
         beaconListViewAdapter = BeaconListAdapter(beaconManager)
