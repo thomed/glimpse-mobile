@@ -2,19 +2,14 @@ package com.glimpse.glimpse.ui
 
 import android.content.Context
 import android.graphics.Rect
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.Switch
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.R
-import com.glimpse.glimpse.data.Site
-import com.glimpse.glimpse.fragments.GlimpseSites
-import kotlinx.android.synthetic.main.ui_site_list_card.view.*
 
 class SiteListCard(parent : RecyclerView,context : Context) : CardView(context) {
 

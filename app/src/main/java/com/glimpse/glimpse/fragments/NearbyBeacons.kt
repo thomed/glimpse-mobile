@@ -8,13 +8,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -53,7 +51,6 @@ class NearbyBeacons : Fragment() {
 
                 if (device != null && device.name != null && enabledBeaconNames.containsKey(device.name)) {
                     Log.d("BT_DISCOVER", "Discovered BT device: " + device.name)
-//                    foundBeacon(device, enabledBeaconNames[device.name]!!)
                     beaconManager.getBeaconsByDevice(device, ::updateViewForBeacons)
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
@@ -69,14 +66,11 @@ class NearbyBeacons : Fragment() {
      */
     fun updateViewForBeacons() {
         Log.d("NEARBY_BEACONS", "Called updated view for beacons.")
+
+        // TODO animation gets applied to all cards
+        // probably need to make a change to beaconmanager list stuff to fix
+        //beaconListRecyclerView.scheduleLayoutAnimation()
         beaconListViewAdapter.notifyDataSetChanged()
-//        view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.removeAllViews()
-//        beaconManager.beacons.forEach {
-//            var mapEntry = it
-//            mapEntry.value.forEach {
-//                view?.findViewById<LinearLayout>(R.id.beaconListScrollVerticalLayout)?.addView(it.listBtn)
-//            }
-//        }
     }
 
     /**
@@ -127,6 +121,7 @@ class NearbyBeacons : Fragment() {
             layoutManager = beaconListViewManager
         }
 
+        clearItemDecorations()
         beaconListRecyclerView.addItemDecoration(BeaconListCard.CardDivider())
 
     }
@@ -144,6 +139,11 @@ class NearbyBeacons : Fragment() {
         return inflater.inflate(R.layout.fragment_nearby_beacons, container, false)
     }
 
+    private fun clearItemDecorations() {
+        while (beaconListRecyclerView.itemDecorationCount > 0) {
+            beaconListRecyclerView.removeItemDecorationAt(0)
+        }
+    }
 
     /**
      * Check for bluetooth permissions etc.

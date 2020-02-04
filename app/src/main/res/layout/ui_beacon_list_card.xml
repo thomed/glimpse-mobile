@@ -43,7 +43,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="My Glimpse Beacon"
-                    android:textAppearance="@style/BeaconCardTitleText" />
+                    android:textAppearance="@style/BeaconCardTitleText"
+                    android:textSize="24sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
