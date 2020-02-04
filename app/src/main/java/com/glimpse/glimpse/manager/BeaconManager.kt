@@ -66,7 +66,6 @@ class BeaconManager(private val parent : Activity) {
                         var newBeacon = Beacon(device, parent)
                         newBeacon.id = beaconObj.getInt("id")
                         newBeacon.friendlyName = beaconObj.getString("display_name")
-                        newBeacon.listBtn.title.text = newBeacon.friendlyName
 
                         // TODO should eventually not request content until user makes selection on NearbyDevices
                         newBeacon.content = beaconObj.getString("content")

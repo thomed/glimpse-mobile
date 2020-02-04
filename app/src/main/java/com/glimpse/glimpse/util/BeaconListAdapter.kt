@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.manager.BeaconManager
 import com.glimpse.glimpse.ui.BeaconListCard
-import kotlinx.android.synthetic.main.fragment_nearby_beacons.view.*
 
 class BeaconListAdapter(beaconManager: BeaconManager) : RecyclerView.Adapter<BeaconListAdapter.BeaconListViewHolder>() {
 

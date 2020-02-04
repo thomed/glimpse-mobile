@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.BeaconContentActivity
 import com.glimpse.glimpse.R
 import com.glimpse.glimpse.data.Beacon
-import kotlinx.android.synthetic.main.ui_beacon_list_card.view.*
 
 class BeaconListCard(context : Context) : CardView(context) {
 
