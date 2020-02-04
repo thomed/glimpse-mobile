@@ -3,6 +3,7 @@ package com.glimpse.glimpse.manager
 import android.app.Activity
 import android.bluetooth.BluetoothDevice
 import android.util.Log
+import androidx.recyclerview.widget.DiffUtil
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
@@ -10,6 +11,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.glimpse.glimpse.data.Beacon
 import com.glimpse.glimpse.data.Site
+import com.glimpse.glimpse.util.BeaconListDiffUtil
 import org.json.JSONObject
 
 class BeaconManager(private val parent : Activity) {
@@ -17,7 +19,7 @@ class BeaconManager(private val parent : Activity) {
     private val requestQueue = Volley.newRequestQueue(parent)
     private val siteManager : SiteManager = SiteManager(parent)
     val enabledDevices : HashMap<String, Site> = siteManager.enabledDevices()
-    val beacons: HashMap<String, ArrayList<Beacon>> = HashMap()
+    val beacons : HashMap<String, ArrayList<Beacon>> = HashMap()
     val beaconsList = ArrayList<Beacon>()
 
     /**
@@ -30,13 +32,25 @@ class BeaconManager(private val parent : Activity) {
      * There may be a more efficient way to maintain both the deviceName -> beacons relation
      * while working with a recycler view, but none comes to mind right now.
      */
-    fun updateBeaconList() {
-        beaconsList.clear()
+    fun updateBeaconList() : DiffUtil.DiffResult {
+        var newList = ArrayList<Beacon>()
         for (deviceName in beacons) {
             deviceName.value.forEach {
-                beaconsList.add(it)
+                newList.add(it)
             }
         }
+
+        var diff = DiffUtil.calculateDiff(BeaconListDiffUtil(beaconsList, newList))
+
+        beaconsList.clear()
+        beaconsList.addAll(newList)
+        return diff
+//        beaconsList.clear()
+//        for (deviceName in beacons) {
+//            deviceName.value.forEach {
+//                beaconsList.add(it)
+//            }
+//        }
     }
 
     /**
@@ -48,7 +62,7 @@ class BeaconManager(private val parent : Activity) {
      *  Eventually the API needs to just provide friendly name, id, and preview image leaving the
      *  content for when the user wants to view it.
      */
-    fun getBeaconsByDevice(device : BluetoothDevice, callback : () -> Unit) {
+    fun getBeaconsByDevice(device : BluetoothDevice, callback : (diff : DiffUtil.DiffResult) -> Unit) {
         if (!enabledDevices.containsKey(device.name)) {
             return
         }
@@ -73,7 +87,7 @@ class BeaconManager(private val parent : Activity) {
                     }
 
                     updateBeaconList()
-                    callback()
+                    callback(updateBeaconList())
                 }
             },
             Response.ErrorListener {

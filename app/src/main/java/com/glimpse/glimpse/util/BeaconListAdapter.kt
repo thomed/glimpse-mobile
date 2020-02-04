@@ -11,7 +11,7 @@ class BeaconListAdapter(beaconManager: BeaconManager) : RecyclerView.Adapter<Bea
 
     class BeaconListViewHolder(val beaconCard : BeaconListCard) : RecyclerView.ViewHolder(beaconCard)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeaconListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : BeaconListViewHolder {
         val card = BeaconListCard(parent.context)
         return BeaconListViewHolder(card)
     }
@@ -20,7 +20,7 @@ class BeaconListAdapter(beaconManager: BeaconManager) : RecyclerView.Adapter<Bea
         holder.beaconCard.replace(beacons[position])
     }
 
-    override fun getItemCount(): Int {
+    override fun getItemCount() : Int {
         return beacons.size
     }
 }

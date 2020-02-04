@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.R
@@ -36,7 +37,7 @@ class NearbyBeacons : Fragment() {
     private lateinit var beaconListRecyclerView : RecyclerView
     private lateinit var beaconListViewAdapter: RecyclerView.Adapter<*>
     private lateinit var beaconListViewManager : RecyclerView.LayoutManager
-    private lateinit var searchInProgessView : LinearLayout
+    private lateinit var searchInProgressView : LinearLayout
     private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
     /**
@@ -66,16 +67,18 @@ class NearbyBeacons : Fragment() {
     /**
      * Clear the view and populate it with elements representing current beacons
      */
-    fun updateViewForBeacons() {
+    fun updateViewForBeacons(diff : DiffUtil.DiffResult) {
         Log.d("NEARBY_BEACONS", "Called updated view for beacons.")
 
         // TODO If no sites enabled, have a message about that instead of searching
-        searchInProgessView.visibility = if (beaconManager.beacons.size > 0) View.GONE else  View.VISIBLE
+        searchInProgressView.visibility = if (beaconManager.beacons.size > 0) View.GONE else View.VISIBLE
 
         // TODO animation gets applied to all cards
         // probably need to make a change to beaconmanager list stuff to fix
-        //beaconListRecyclerView.scheduleLayoutAnimation()
-        beaconListViewAdapter.notifyDataSetChanged()
+        // Can also look into using DiffUtil for the recyclerview
+//        beaconListRecyclerView.scheduleLayoutAnimation()
+        diff.dispatchUpdatesTo(beaconListViewAdapter)
+//        beaconListViewAdapter.notifyDataSetChanged()
     }
 
     /**
@@ -116,8 +119,7 @@ class NearbyBeacons : Fragment() {
             Toast.makeText(currentContext, "Unable to get a bluetooth adapter.", Toast.LENGTH_LONG).show()
         }
 
-        searchInProgessView = requireView().findViewById(R.id.search_in_progress)
-
+        searchInProgressView = requireView().findViewById(R.id.search_in_progress)
         beaconListViewManager = LinearLayoutManager(view?.context)
         beaconListViewAdapter = BeaconListAdapter(beaconManager)
 
