@@ -62,7 +62,7 @@ class SiteManager(val activity : Activity) {
      */
     fun insertURL(url : String) {
         val db = dbHelper.writableDatabase
-        var date = SimpleDateFormat("MMMM DD, YYYY").format(Date())
+        var date = SimpleDateFormat("MMMM dd, YYYY").format(Date())
         db.execSQL(INSERT_URL, arrayOf(url, date, 1))
     }
 
