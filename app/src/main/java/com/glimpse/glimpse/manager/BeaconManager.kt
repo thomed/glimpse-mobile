@@ -23,7 +23,7 @@ class BeaconManager(private val parent : Activity) {
     val beaconsList = ArrayList<Beacon>()
 
     /**
-     * Refresh the beaacon list so that it is up to date with all of the beacons in the beacons
+     * Refresh the beacon list so that it is up to date with all of the beacons in the beacons
      * hashmap.
      *
      * This should be called whenever the beacons hashmap is updated to keep things relevant for the
@@ -45,12 +45,6 @@ class BeaconManager(private val parent : Activity) {
         beaconsList.clear()
         beaconsList.addAll(newList)
         return diff
-//        beaconsList.clear()
-//        for (deviceName in beacons) {
-//            deviceName.value.forEach {
-//                beaconsList.add(it)
-//            }
-//        }
     }
 
     /**
@@ -86,7 +80,6 @@ class BeaconManager(private val parent : Activity) {
                         beacons[device.name]?.add(newBeacon)
                     }
 
-                    updateBeaconList()
                     callback(updateBeaconList())
                 }
             },

@@ -48,7 +48,6 @@ class NearbyBeacons : Fragment() {
             Log.d("NEARBY_BEACONS", "Bluetooth receiver receiving")
 
             val action = intent.action
-
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 var device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice?
 
@@ -65,20 +64,16 @@ class NearbyBeacons : Fragment() {
     }
 
     /**
-     * Clear the view and populate it with elements representing current beacons
+     * Apply updates to the recycler view that displays nearby beacons.
      */
     fun updateViewForBeacons(diff : DiffUtil.DiffResult) {
-        Log.d("NEARBY_BEACONS", "Called updated view for beacons.")
+        Log.d("NEARBY_BEACONS", "Called update view for beacons.")
 
         // TODO If no sites enabled, have a message about that instead of searching
-        searchInProgressView.visibility = if (beaconManager.beacons.size > 0) View.GONE else View.VISIBLE
+        // hide searching progress circle if have found at least one beacon
+        searchInProgressView.visibility = if (beaconManager.beaconsList.size > 0) View.GONE else View.VISIBLE
 
-        // TODO animation gets applied to all cards
-        // probably need to make a change to beaconmanager list stuff to fix
-        // Can also look into using DiffUtil for the recyclerview
-//        beaconListRecyclerView.scheduleLayoutAnimation()
         diff.dispatchUpdatesTo(beaconListViewAdapter)
-//        beaconListViewAdapter.notifyDataSetChanged()
     }
 
     /**
@@ -94,6 +89,8 @@ class NearbyBeacons : Fragment() {
 
     override fun onDestroy() {
         btAdapter?.cancelDiscovery()
+
+        // TODO occasional crash when bReceiver is not a registered receiver. Would like to avoid try/catch
         currentContext.unregisterReceiver(bReceiver)
         super.onDestroy()
     }

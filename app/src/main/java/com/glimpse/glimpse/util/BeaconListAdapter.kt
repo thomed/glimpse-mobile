@@ -18,6 +18,7 @@ class BeaconListAdapter(beaconManager: BeaconManager) : RecyclerView.Adapter<Bea
 
     override fun onBindViewHolder(holder: BeaconListViewHolder, position: Int) {
         holder.beaconCard.replace(beacons[position])
+        holder.beaconCard.animate()
     }
 
     override fun getItemCount() : Int {

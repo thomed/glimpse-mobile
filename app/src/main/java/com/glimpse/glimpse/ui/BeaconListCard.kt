@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,8 @@ class BeaconListCard(context : Context) : CardView(context) {
         cardView = findViewById(R.id.beacon_card_view)
         beaconTitleTextView = findViewById(R.id.beacon_card_title)
 
+        // TODO potentially have different animation settings that user can choose
+        animation = AnimationUtils.loadAnimation(context, R.anim.item_animation_beacon_card)
     }
 
     fun replace(beacon : Beacon) {
