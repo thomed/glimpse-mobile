@@ -21,8 +21,28 @@ class BeaconManager(private val parent : Activity) {
     val enabledDevices : HashMap<String, Site> = siteManager.enabledDevices()
     val beacons : HashMap<String, ArrayList<Beacon>> = HashMap()
     val beaconsList = ArrayList<Beacon>()
+    private val previousBeaconsList = ArrayList<Beacon>()
 
     /**
+     * When a discovery cycle ends, compare the current list to the old one and apply the diff.
+     */
+    fun newDiscoveryCycleDiff(callback : (diff : DiffUtil.DiffResult) -> Unit) {
+        // if first discovery cycle just finished
+        if (previousBeaconsList.isEmpty()) {
+            previousBeaconsList.addAll(beaconsList)
+        }
+
+        // else find the diff between previous and current, update previous to current
+        updateBeaconList()
+        var diff = DiffUtil.calculateDiff(BeaconListDiffUtil(previousBeaconsList, beaconsList))
+        previousBeaconsList.clear()
+        previousBeaconsList.addAll(beaconsList)
+        beacons.clear()
+        callback(diff)
+    }
+
+    /**
+     *
      * Refresh the beacon list so that it is up to date with all of the beacons in the beacons
      * hashmap.
      *

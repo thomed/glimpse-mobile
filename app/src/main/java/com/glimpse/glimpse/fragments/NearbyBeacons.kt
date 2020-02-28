@@ -48,14 +48,19 @@ class NearbyBeacons : Fragment() {
             Log.d("NEARBY_BEACONS", "Bluetooth receiver receiving")
 
             val action = intent.action
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+            if (BluetoothDevice.ACTION_FOUND == action) {
                 var device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice?
 
                 if (device != null && device.name != null && enabledBeaconNames.containsKey(device.name)) {
                     Log.d("BT_DISCOVER", "Discovered BT device: " + device.name)
                     beaconManager.getBeaconsByDevice(device, ::updateViewForBeacons)
                 }
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+            // discovery cycle finished
+            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action) {
+
+                // notify the beacon manager that the discovery cycle finished
+                beaconManager.newDiscoveryCycleDiff(::updateViewForBeacons)
+
                 // TODO have this be a setting that the user can change
                 // continuously be discovering
                 btAdapter?.startDiscovery()
@@ -69,11 +74,11 @@ class NearbyBeacons : Fragment() {
     fun updateViewForBeacons(diff : DiffUtil.DiffResult) {
         Log.d("NEARBY_BEACONS", "Called update view for beacons.")
 
+        diff.dispatchUpdatesTo(beaconListViewAdapter)
+
         // TODO If no sites enabled, have a message about that instead of searching
         // hide searching progress circle if have found at least one beacon
-        searchInProgressView.visibility = if (beaconManager.beaconsList.size > 0) View.GONE else View.VISIBLE
-
-        diff.dispatchUpdatesTo(beaconListViewAdapter)
+        searchInProgressView.visibility = if (beaconListViewAdapter.itemCount > 0) View.GONE else View.VISIBLE
     }
 
     /**
