@@ -12,7 +12,7 @@ import com.glimpse.glimpse.BeaconContentActivity
 import com.glimpse.glimpse.R
 import com.glimpse.glimpse.data.Beacon
 
-class BeaconListCard(context : Context) : CardView(context) {
+class SavedBeaconCard(context : Context) : CardView(context) {
 
     var cardView : CardView
     var beaconTitleTextView : TextView
@@ -33,8 +33,6 @@ class BeaconListCard(context : Context) : CardView(context) {
         cardView.setOnClickListener {
             val intent = Intent(context, BeaconContentActivity::class.java)
 
-            // TODO look into making beacon parcelable so can directly pass it and its content
-            // or do all of the content-getting in the new activity
             intent.putExtra("title", beacon.friendlyName)
             intent.putExtra("content", beacon.content)
             context.startActivity(intent)
@@ -52,3 +50,4 @@ class BeaconListCard(context : Context) : CardView(context) {
         }
     }
 }
+

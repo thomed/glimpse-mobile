@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.pinned -> {
                     Log.d("DRAWER", "Selected pinned")
-                    this.title = "Glimpse - Pinned Beacons"
-                    changeView(PinnedBeacons())
+                    this.title = "Glimpse - Saved Beacons"
+                    changeView(SavedBeacons())
                     true
                 }
 

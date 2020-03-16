@@ -76,7 +76,7 @@ class BeaconManager(private val parent : Activity) {
      *  Eventually the API needs to just provide friendly name, id, and preview image leaving the
      *  content for when the user wants to view it.
      */
-    fun getBeaconsByDevice(device : BluetoothDevice, callback : (diff : DiffUtil.DiffResult) -> Unit) {
+    fun getBeaconsByDevice(device : BluetoothDevice, rssi : Short, callback : (diff : DiffUtil.DiffResult) -> Unit) {
         if (!enabledDevices.containsKey(device.name)) {
             return
         }
@@ -92,8 +92,16 @@ class BeaconManager(private val parent : Activity) {
                     for (i in 0 until data.length()) {
                         var beaconObj = data.getJSONObject(i)
                         var newBeacon = Beacon(device, parent)
+
+                        // only add if rssi is within threshold
+//                        if (beaconObj.getInt("minRSSI") > rssi) {
+//                            continue
+//                        }
+
                         newBeacon.id = beaconObj.getInt("id")
                         newBeacon.friendlyName = beaconObj.getString("display_name")
+                        newBeacon.rssi = rssi
+
 
                         // TODO should eventually not request content until user makes selection on NearbyDevices
                         newBeacon.content = beaconObj.getString("content")

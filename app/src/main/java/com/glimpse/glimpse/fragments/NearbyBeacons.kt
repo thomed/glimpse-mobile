@@ -50,10 +50,11 @@ class NearbyBeacons : Fragment() {
             val action = intent.action
             if (BluetoothDevice.ACTION_FOUND == action) {
                 var device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice?
+                var rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE)
 
                 if (device != null && device.name != null && enabledBeaconNames.containsKey(device.name)) {
                     Log.d("BT_DISCOVER", "Discovered BT device: " + device.name)
-                    beaconManager.getBeaconsByDevice(device, ::updateViewForBeacons)
+                    beaconManager.getBeaconsByDevice(device, rssi, ::updateViewForBeacons)
                 }
             // discovery cycle finished
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action) {

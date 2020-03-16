@@ -11,4 +11,5 @@ class Beacon (
     var deviceName = device.name
     var friendlyName = ""
     var id = -1
+    var rssi : Short = -100
 }
