@@ -17,14 +17,14 @@ class GlimpseDatabaseHelper(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
     companion object {
         // Database Information
         const val DATABASE_NAME = "glimpse_db"
-        private val DATABASE_VERSION = 1
+        private val DATABASE_VERSION = 2
 
         // Table creation queries
         private const val MAKE_URL_TABLE =

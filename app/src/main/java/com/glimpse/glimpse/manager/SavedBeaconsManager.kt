@@ -3,6 +3,7 @@ package com.glimpse.glimpse.manager
 import android.app.Activity
 import android.database.Cursor
 import com.glimpse.glimpse.data.Beacon
+import com.glimpse.glimpse.data.SavedBeacon
 import com.glimpse.glimpse.util.GlimpseTools
 
 class SavedBeaconsManager(private val activity : Activity) {
@@ -15,7 +16,7 @@ class SavedBeaconsManager(private val activity : Activity) {
         private const val GET_ALL_BEACONS = "SELECT * FROM saved_beacons"
     }
 
-    fun getAllSavedBeacons() : List<Beacon> {
+    fun getAllSavedBeacons() : List<SavedBeacon> {
         val db = dbHelper.readableDatabase
         val c : Cursor = db.rawQuery(GET_ALL_BEACONS, emptyArray())
         val dNameCol = c.getColumnIndex("device_name")
@@ -25,7 +26,12 @@ class SavedBeaconsManager(private val activity : Activity) {
 
         return generateSequence { if (c.moveToNext()) c else null }
             .map {
-
+                SavedBeacon(
+                    c.getString(dNameCol),
+                    c.getString(fNameCol),
+                    c.getString(contentCol),
+                    c.getString(cTypeCol)
+                )
             }.toList()
     }
 

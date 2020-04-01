@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.BeaconContentActivity
 import com.glimpse.glimpse.R
 import com.glimpse.glimpse.data.Beacon
+import com.glimpse.glimpse.data.SavedBeacon
 
 class SavedBeaconCard(context : Context) : CardView(context) {
 
@@ -27,7 +28,7 @@ class SavedBeaconCard(context : Context) : CardView(context) {
         animation = AnimationUtils.loadAnimation(context, R.anim.item_animation_beacon_card)
     }
 
-    fun replace(beacon : Beacon) {
+    fun replace(beacon : SavedBeacon) {
         beaconTitleTextView.text = beacon.friendlyName
 
         cardView.setOnClickListener {
