@@ -40,26 +40,33 @@ class MainActivity : AppCompatActivity() {
         // handle the different selections in the drawer
         navView.setNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.home -> {
+                    Log.d("DRAWER", "Selected home")
+                    this.title = "Glimpse"
+                    changeView(GlimpseHome())
+                    true
+                }
+
                 R.id.beacons -> {
                     Log.d("DRAWER", "Selected beacons")
-                    this.title = "Glimpse - Nearby Beacons"
+                    this.title = "Nearby Beacons"
                     changeView(NearbyBeacons())
                     true
                 }
 
                 R.id.pinned -> {
                     Log.d("DRAWER", "Selected pinned")
-                    this.title = "Glimpse - Saved Beacons"
+                    this.title = "Saved Beacons"
                     changeView(SavedBeacons())
                     true
                 }
 
-                R.id.recent -> {
-                    Log.d("DRAWER", "Selected recent")
-                    this.title = "Glimpse - Recent Beacons"
-                    changeView(RecentBeacons())
-                    true
-                }
+//                R.id.recent -> {
+//                    Log.d("DRAWER", "Selected recent")
+//                    this.title = "Glimpse - Recent Beacons"
+//                    changeView(RecentBeacons())
+//                    true
+//                }
 
                 R.id.sites -> {
                     Log.d("DRAWER", "Selected sites")
@@ -68,12 +75,12 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.settings -> {
-                    Log.d("DRAWER", "Selected settings")
-                    this.title = "Glimpse Settings"
-                    changeView(GlimpseSettings())
-                    true
-                }
+//                R.id.settings -> {
+//                    Log.d("DRAWER", "Selected settings")
+//                    this.title = "Glimpse Settings"
+//                    changeView(GlimpseSettings())
+//                    true
+//                }
 
                 else -> false
             }

@@ -21,6 +21,7 @@ class SiteListAdapter(private val glimpseSites : GlimpseSites, private val siteM
     override fun onBindViewHolder(holder: SiteListViewHolder, position: Int) {
         var sites = siteManager.sites()
         holder.siteCard.siteNameTextView.text = sites[position].name
+        holder.siteCard.siteNameTextView.text = "Espers Glimpse Site"
         holder.siteCard.siteURLTextView.text = sites[position].url
         holder.siteCard.siteDateAddedTextView.text = sites[position].date
         holder.siteCard.menu.setOnMenuItemClickListener { glimpseSites.onMenuItemClick(it, holder.siteCard) }

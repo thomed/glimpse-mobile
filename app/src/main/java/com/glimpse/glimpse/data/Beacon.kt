@@ -8,6 +8,7 @@ class Beacon (
     private var context : Context
 ) {
     var content = ""
+    var contentType = ""
     var deviceName = device.name
     var friendlyName = ""
     var id = -1

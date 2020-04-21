@@ -14,6 +14,8 @@ class SavedBeaconsManager(private val activity : Activity) {
     companion object {
         // saved beacons queries
         private const val GET_ALL_BEACONS = "SELECT * FROM saved_beacons"
+        private const val INSERT_BEACON = "INSERT OR IGNORE INTO saved_beacons VALUES(?, ?, ?, ?)"
+        private const val DELETE_BEACON = "DELETE FROM saved_beacons WHERE friendly_name = ? "
     }
 
     fun getAllSavedBeacons() : List<SavedBeacon> {
@@ -33,6 +35,17 @@ class SavedBeaconsManager(private val activity : Activity) {
                     c.getString(cTypeCol)
                 )
             }.toList()
+    }
+
+    fun maketest() {
+        val db = dbHelper.writableDatabase
+        db.execSQL(INSERT_BEACON, arrayOf("DEVICE", "Mona Lisa", "Here is the text content", "text"))
+        db.execSQL(INSERT_BEACON, arrayOf("HTMLDEVICE", "HTML Mona Lisa", "<h1>The Mona Lisa</h1><p>By Leonardo DaVinci</p>", "html"))
+    }
+
+    fun deleteBeacon(fname : String) {
+        val db = dbHelper.writableDatabase
+        db.execSQL(DELETE_BEACON, arrayOf(fname))
     }
 
 }

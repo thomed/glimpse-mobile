@@ -62,7 +62,6 @@ class NearbyBeacons : Fragment() {
                 // notify the beacon manager that the discovery cycle finished
                 beaconManager.newDiscoveryCycleDiff(::updateViewForBeacons)
 
-                // TODO have this be a setting that the user can change
                 // continuously be discovering
                 btAdapter?.startDiscovery()
             }

@@ -2,4 +2,44 @@
     <string name="app_name">Glimpse</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
+
+    <string name="default_styles">
+        <![CDATA[
+        <style>
+            body {
+                font-size: 4vh;
+                margin: 1em;
+            }
+        </style>
+        ]]>
+    </string>
+
+    <string name="text_content_html">
+        <![CDATA[
+        <html>
+            <head>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </head>
+            %s
+        </html>
+        <body>
+            <p>%s</p>
+        </body>
+        ]]>
+    </string>
+
+    <string name="formatted_content_html">
+         <![CDATA[
+        <html>
+            <head>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+            </head>
+        </html>
+        <body>
+            %s
+        </body>
+        ]]>
+    </string>
 </resources>

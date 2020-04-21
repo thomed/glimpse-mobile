@@ -37,6 +37,7 @@ class BeaconListCard(context : Context) : CardView(context) {
             // or do all of the content-getting in the new activity
             intent.putExtra("title", beacon.friendlyName)
             intent.putExtra("content", beacon.content)
+            intent.putExtra("content_type", beacon.contentType)
             context.startActivity(intent)
         }
     }
