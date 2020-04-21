@@ -14,7 +14,7 @@ class SavedBeaconsManager(private val activity : Activity) {
     companion object {
         // saved beacons queries
         private const val GET_ALL_BEACONS = "SELECT * FROM saved_beacons"
-        private const val INSERT_BEACON = "INSERT OR IGNORE INTO saved_beacons VALUES(?, ?, ?, ?)"
+        private const val INSERT_BEACON = "INSERT OR REPLACE INTO saved_beacons VALUES(?, ?, ?, ?)"
         private const val DELETE_BEACON = "DELETE FROM saved_beacons WHERE friendly_name = ? "
     }
 

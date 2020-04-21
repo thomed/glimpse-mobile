@@ -21,7 +21,7 @@
 
             <ImageView
                 android:id="@+id/saved_beacon_card_preview_image"
-                android:layout_width="85dp"
+                android:layout_width="225dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:adjustViewBounds="false"
@@ -31,11 +31,28 @@
                 app:srcCompat="@mipmap/u_logo_foreground" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="start"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageButton
+                        android:id="@+id/deleteSavedBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/screen_background_light_transparent"
+                        app:srcCompat="@drawable/ic_delete_forever_black" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/saved_beacon_card_title"
@@ -47,22 +64,6 @@
                     android:textAppearance="@style/BeaconCardTitleText"
                     android:textSize="24sp" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-
-                <ImageButton
-                    android:id="@+id/deleteSavedBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/screen_background_light_transparent"
-                    app:srcCompat="@drawable/ic_delete_forever_black" />
             </LinearLayout>
 
         </LinearLayout>
