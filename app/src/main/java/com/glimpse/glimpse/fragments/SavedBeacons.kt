@@ -48,7 +48,7 @@ class SavedBeacons : Fragment() {
         }
 
         savedBeaconsRecyclerView = requireView().findViewById(R.id.savedBeaconListRecyclerView)
-        savedBeaconsRecyclerView?.apply {
+        savedBeaconsRecyclerView.apply {
             setHasFixedSize(true)
             adapter = savedBeaconsListAdapter
             layoutManager = savedBeaconsViewManager

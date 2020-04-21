@@ -22,11 +22,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.glimpse.glimpse.R
+import com.glimpse.glimpse.data.Beacon
 import com.glimpse.glimpse.data.Site
 import com.glimpse.glimpse.manager.BeaconManager
 import com.glimpse.glimpse.manager.RequestManager
 import com.glimpse.glimpse.ui.BeaconListCard
 import com.glimpse.glimpse.util.BeaconListAdapter
+import com.glimpse.glimpse.util.GlimpseTools
 
 class NearbyBeacons : Fragment() {
 
@@ -38,6 +40,7 @@ class NearbyBeacons : Fragment() {
     private lateinit var beaconListViewAdapter: RecyclerView.Adapter<*>
     private lateinit var beaconListViewManager : RecyclerView.LayoutManager
     private lateinit var searchInProgressView : LinearLayout
+    private lateinit var  glimpseTools: GlimpseTools
     private val btAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
     /**
@@ -76,7 +79,6 @@ class NearbyBeacons : Fragment() {
 
         diff.dispatchUpdatesTo(beaconListViewAdapter)
 
-        // TODO If no sites enabled, have a message about that instead of searching
         // hide searching progress circle if have found at least one beacon
         searchInProgressView.visibility = if (beaconListViewAdapter.itemCount > 0) View.GONE else View.VISIBLE
     }
@@ -90,6 +92,7 @@ class NearbyBeacons : Fragment() {
         beaconManager = BeaconManager(requireActivity())
         requestManager = RequestManager(context)
         enabledBeaconNames = beaconManager.enabledDevices
+        glimpseTools = GlimpseTools(requireActivity())
     }
 
     override fun onDestroy() {
@@ -123,7 +126,7 @@ class NearbyBeacons : Fragment() {
 
         searchInProgressView = requireView().findViewById(R.id.search_in_progress)
         beaconListViewManager = LinearLayoutManager(view?.context)
-        beaconListViewAdapter = BeaconListAdapter(beaconManager)
+        beaconListViewAdapter = BeaconListAdapter(beaconManager, this)
 
         beaconListRecyclerView = requireView().findViewById(R.id.beaconListRecyclerView)
         beaconListRecyclerView?.apply {
@@ -175,6 +178,10 @@ class NearbyBeacons : Fragment() {
                 ), 1337
             )
         }
+    }
+
+    fun saveBeacon(beacon : Beacon) {
+        beaconManager.saveBeacon(beacon)
     }
 
 }

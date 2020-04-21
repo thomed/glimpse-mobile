@@ -48,4 +48,14 @@ class SavedBeaconsManager(private val activity : Activity) {
         db.execSQL(DELETE_BEACON, arrayOf(fname))
     }
 
+    fun insertBeacon(beacon : Beacon) {
+        val db = dbHelper.writableDatabase
+        val dName = beacon.deviceName
+        val fName = beacon.friendlyName
+        val content = beacon.content
+        val cType = beacon.contentType
+
+        db.execSQL(INSERT_BEACON, arrayOf(dName, fName, content, cType))
+    }
+
 }

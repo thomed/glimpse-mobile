@@ -12,10 +12,12 @@ import com.android.volley.toolbox.Volley
 import com.glimpse.glimpse.data.Beacon
 import com.glimpse.glimpse.data.Site
 import com.glimpse.glimpse.util.BeaconListDiffUtil
+import com.glimpse.glimpse.util.GlimpseTools
 import org.json.JSONObject
 
 class BeaconManager(private val parent : Activity) {
 
+    private val savedBeaconManager = SavedBeaconsManager(parent)
     private val requestQueue = Volley.newRequestQueue(parent)
     private val siteManager : SiteManager = SiteManager(parent)
     val enabledDevices : HashMap<String, Site> = siteManager.enabledDevices()
@@ -122,6 +124,10 @@ class BeaconManager(private val parent : Activity) {
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
         requestQueue.add(request)
+    }
+
+    fun saveBeacon(beacon : Beacon) {
+        savedBeaconManager.insertBeacon(beacon)
     }
 
 }
