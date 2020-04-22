@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -43,6 +44,8 @@ class SavedBeaconCard(context : Context, activity: Activity, var parentFragment 
     }
 
     fun replace(beacon : SavedBeacon) {
+        var thumbnail = findViewById<ImageView>(R.id.saved_beacon_card_preview_image)
+        thumbnail.setImageBitmap(beacon.thumbnailBitmap)
         beaconTitleTextView.text = beacon.friendlyName
 
         cardView.setOnClickListener {

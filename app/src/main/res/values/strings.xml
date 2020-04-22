@@ -24,7 +24,7 @@
             %s
         </html>
         <body>
-            <p>%s</p>
+            %s
         </body>
         ]]>
     </string>

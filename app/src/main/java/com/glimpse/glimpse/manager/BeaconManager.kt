@@ -103,9 +103,10 @@ class BeaconManager(private val parent : Activity) {
                         newBeacon.id = beaconObj.getInt("id")
                         newBeacon.friendlyName = beaconObj.getString("display_name")
                         newBeacon.rssi = rssi
+                        newBeacon.thumbnailB64 = beaconObj.getString("thumbnail")
+                        newBeacon.updateThumbnail()
 
 
-                        // TODO should eventually not request content until user makes selection on NearbyDevices
                         newBeacon.content = beaconObj.getString("content")
                         newBeacon.contentType = beaconObj.getString("content_type")
                         beacons[device.name]?.add(newBeacon)

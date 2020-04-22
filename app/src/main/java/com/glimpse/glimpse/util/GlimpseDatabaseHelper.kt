@@ -31,7 +31,7 @@ class GlimpseDatabaseHelper(context: Context) :
             "CREATE TABLE IF NOT EXISTS glimpse_urls (url TEXT PRIMARY KEY, date_added TEXT, enabled INTEGER NOT NULL CHECK (enabled IN (0, 1)))"
 
         private const val MAKE_SAVED_BEACONS_TABLE =
-            "CREATE TABLE IF NOT EXISTS saved_beacons (device_name TEXT PRIMARY KEY, friendly_name TEXT, content TEXT, content_type TEXT)"
+            "CREATE TABLE IF NOT EXISTS saved_beacons (device_name TEXT PRIMARY KEY, friendly_name TEXT, content TEXT, content_type TEXT, thumbnail TEXT)"
     }
 
 }

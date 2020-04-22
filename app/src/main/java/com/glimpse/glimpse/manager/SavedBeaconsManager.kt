@@ -14,7 +14,7 @@ class SavedBeaconsManager(private val activity : Activity) {
     companion object {
         // saved beacons queries
         private const val GET_ALL_BEACONS = "SELECT * FROM saved_beacons"
-        private const val INSERT_BEACON = "INSERT OR REPLACE INTO saved_beacons VALUES(?, ?, ?, ?)"
+        private const val INSERT_BEACON = "INSERT OR REPLACE INTO saved_beacons VALUES(?, ?, ?, ?, ?)"
         private const val DELETE_BEACON = "DELETE FROM saved_beacons WHERE friendly_name = ? "
     }
 
@@ -25,6 +25,8 @@ class SavedBeaconsManager(private val activity : Activity) {
         val fNameCol = c.getColumnIndex("friendly_name")
         val contentCol = c.getColumnIndex("content")
         val cTypeCol = c.getColumnIndex("content_type")
+        val thumb64 = c.getColumnIndex("thumbnail")
+
 
         return generateSequence { if (c.moveToNext()) c else null }
             .map {
@@ -32,7 +34,9 @@ class SavedBeaconsManager(private val activity : Activity) {
                     c.getString(dNameCol),
                     c.getString(fNameCol),
                     c.getString(contentCol),
-                    c.getString(cTypeCol)
+                    c.getString(cTypeCol),
+                    c.getString(thumb64),
+                    activity.applicationContext
                 )
             }.toList()
     }
@@ -54,8 +58,9 @@ class SavedBeaconsManager(private val activity : Activity) {
         val fName = beacon.friendlyName
         val content = beacon.content
         val cType = beacon.contentType
+        val thumb64 = beacon.thumbnailB64
 
-        db.execSQL(INSERT_BEACON, arrayOf(dName, fName, content, cType))
+        db.execSQL(INSERT_BEACON, arrayOf(dName, fName, content, cType, thumb64))
     }
 
 }

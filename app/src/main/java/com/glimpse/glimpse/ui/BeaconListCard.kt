@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -14,6 +15,7 @@ import com.glimpse.glimpse.BeaconContentActivity
 import com.glimpse.glimpse.R
 import com.glimpse.glimpse.data.Beacon
 import com.glimpse.glimpse.fragments.NearbyBeacons
+import com.glimpse.glimpse.util.Base64ImageDecoder
 
 class BeaconListCard(context : Context, var parentFragment : NearbyBeacons) : CardView(context) {
 
@@ -32,7 +34,10 @@ class BeaconListCard(context : Context, var parentFragment : NearbyBeacons) : Ca
     }
 
     fun replace(beacon : Beacon) {
+        var thumbnail = findViewById<ImageView>(R.id.beacon_card_preview_image)
+        thumbnail.setImageBitmap(beacon.thumbnailBitmap)
         beaconTitleTextView.text = beacon.friendlyName
+
 
         cardView.setOnClickListener {
             val intent = Intent(context, BeaconContentActivity::class.java)
