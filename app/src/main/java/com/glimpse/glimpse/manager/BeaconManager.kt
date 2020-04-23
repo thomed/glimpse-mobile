@@ -104,6 +104,7 @@ class BeaconManager(private val parent : Activity) {
                         newBeacon.friendlyName = beaconObj.getString("display_name")
                         newBeacon.rssi = rssi
                         newBeacon.thumbnailB64 = beaconObj.getString("thumbnail")
+                        newBeacon.thumbnailB64 = newBeacon.thumbnailB64.substringAfter("base64,")
                         newBeacon.updateThumbnail()
 
 

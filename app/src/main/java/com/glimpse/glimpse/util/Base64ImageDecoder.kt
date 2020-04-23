@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import com.glimpse.glimpse.R
+import java.lang.Exception
 
 class Base64ImageDecoder {
 
@@ -14,19 +15,28 @@ class Base64ImageDecoder {
 
             val default = BitmapFactory.decodeResource(context.resources, R.mipmap.u_logo_foreground)
 
+
             // use default image if can't decode or no b64 string provided
             if (b64 == null || b64.isBlank()) {
                 return default
             }
 
-            val imageBytes = Base64.decode(b64, Base64.DEFAULT)
-            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            try {
+                val imageBytes = Base64.decode(b64, Base64.DEFAULT)
+                val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.count())
 
-            if (decodedImage == null) {
+                if (decodedImage == null) {
+                    return default
+                }
+
+                return decodedImage
+//                return default;
+
+            } catch (e : Exception) {
                 return default
             }
 
-            return decodedImage
+
         }
     }
 
