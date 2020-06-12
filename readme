@@ -1,2 +1,6 @@
 Glimpse Mobile application for Android
 
+My capstone project had three components: a server with an API, a mobile application, and wireless embedded devices.
+
+The mobile application would communicate with the embedded devices and the server and is of little use on its own, but I have migrated the repository from my University for reference and preservation.
+
